@@ -417,7 +417,7 @@ export function HomePage() {
             <div className="absolute inset-0 opacity-25 [background:radial-gradient(circle_at_20%_10%,white,transparent_45%),radial-gradient(circle_at_85%_85%,white,transparent_40%)]" />
             <div className="relative space-y-4 md:space-y-6 animate-float-in">
               <a
-                href="#"
+                href="/contact"
                 className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur border border-white/20 pl-1.5 pr-3 py-1.5 text-xs font-medium hover:bg-white/15 transition-colors w-fit"
               >
                 <span className="size-5 md:size-6 rounded-full bg-white grid place-items-center text-primary">
