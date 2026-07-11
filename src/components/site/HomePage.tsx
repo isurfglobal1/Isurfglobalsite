@@ -312,7 +312,7 @@ export function HomePage() {
           color: "from-blue-500/20 to-blue-600/10",
           testimonial: {
             quote: '"ISurfGlobal makes global hiring effortless."',
-            author: "Amelia Carter, COO",
+            author: "Akosua Mensah, COO",
           },
           emoji: "🌐",
           title: "Global Talent",
@@ -696,7 +696,7 @@ export function HomePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="bg-background">
+      {/* <section className="bg-background">
         <div className="container-page py-24">
           <div className="text-center max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-widest mb-3">
@@ -739,7 +739,7 @@ export function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* METRICS */}
       <section className="bg-primary text-primary-foreground">

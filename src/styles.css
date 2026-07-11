@@ -102,6 +102,60 @@
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
+
+  /* Firefox scrollbar styling */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-500) var(--muted);
+  }
+
+  /* WebKit (Chrome, Safari, Edge) scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--muted);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--brand-500);
+    border-radius: 10px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-600);
+  }
+
+  /* Optional: Style for when the scrollbar is being dragged */
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--brand-700);
+  }
+
+  /* Optional: Style for corner when both scrollbars are visible */
+  ::-webkit-scrollbar-corner {
+    background: var(--muted);
+  }
+
+  /* Dark mode scrollbar overrides if needed */
+  .dark * {
+    scrollbar-color: var(--brand-500) var(--muted);
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: var(--brand-600);
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-500);
+  }
 }
 
 @utility container-page {
