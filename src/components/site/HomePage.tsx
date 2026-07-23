@@ -308,39 +308,56 @@ export function HomePage() {
   // Get the right content for each selection
   const getRightContent = (label: string) => {
     switch (label) {
-      case "Hire anywhere":
+      case "IT Services":
         return {
           floatingCards: [
-            { icon: Globe2, label: "Global Talent", sub: "150+ Countries" },
-            { icon: Users, label: "Active Candidates", sub: "5,000+" },
-            { icon: Shield, label: "Compliant", sub: "100% Local" },
+            { icon: Monitor, label: "IT Solutions", sub: "Custom development" },
+            { icon: Headphones, label: "Contact Center", sub: "3CX-powered" },
+            { icon: Shield, label: "Security", sub: "Enterprise-grade" },
           ],
-          stat: "150+ Countries",
-          badge: "Global Network",
+          stat: "3CX Expert",
+          badge: "IT Solutions",
           color: "from-blue-500/20 to-blue-600/10",
           testimonial: {
-            quote: '"ISurfGlobal makes global hiring effortless."',
-            author: "Akosua Mensah, COO",
+            quote: '"ISurfGlobal transformed our IT infrastructure."',
+            author: "Michael Adebayo, CTO",
           },
-          emoji: "🌐",
-          title: "Global Talent",
+          emoji: "💻",
+          title: "IT Excellence",
         };
-      case "Run payroll":
+      case "HR Outsourcing":
         return {
           floatingCards: [
-            { icon: Wallet, label: "Total Payroll", sub: "$360,450" },
-            { icon: CreditCard, label: "Currencies", sub: "42 Active" },
-            { icon: Clock, label: "Processing", sub: "2 mins ago" },
+            { icon: Users, label: "Talent Pool", sub: "5,000+ candidates" },
+            { icon: UserCog, label: "HR Management", sub: "Complete lifecycle" },
+            { icon: Shield, label: "Compliance", sub: "Local & global" },
           ],
-          stat: "$360,450",
-          badge: "Processing",
+          stat: "92% Faster",
+          badge: "HR Solutions",
           color: "from-green-500/20 to-green-600/10",
           testimonial: {
-            quote: '"Payroll runs like clockwork."',
-            author: "Daniel Okafor, VP Ops",
+            quote: '"HR operations have never been smoother."',
+            author: "Chioma Okonkwo, HR Director",
           },
-          emoji: "💰",
-          title: "Payroll Complete",
+          emoji: "👥",
+          title: "HR Excellence",
+        };
+      case "Procurement":
+        return {
+          floatingCards: [
+            { icon: Package, label: "Supply Chain", sub: "End-to-end" },
+            { icon: Truck, label: "Logistics", sub: "Real-time tracking" },
+            { icon: Shield, label: "Quality", sub: "100% compliance" },
+          ],
+          stat: "Streamlined",
+          badge: "Procurement",
+          color: "from-amber-500/20 to-amber-600/10",
+          testimonial: {
+            quote: '"Procurement efficiency increased by 60%."',
+            author: "Oluwaseun Adeleke, Operations",
+          },
+          emoji: "📦",
+          title: "Procurement Solutions",
         };
       case "Workspace Rental":
         return {
@@ -359,56 +376,39 @@ export function HomePage() {
           emoji: "🏢",
           title: "Workspace Solutions",
         };
-      case "Manage HR & people":
+      case "L&D":
         return {
           floatingCards: [
-            { icon: Users, label: "Active Employees", sub: "1,284" },
-            { icon: UserCog, label: "Departments", sub: "12" },
-            { icon: Star, label: "Engagement", sub: "4.8/5" },
+            { icon: GraduationCap, label: "Training Programs", sub: "50+ courses" },
+            { icon: Users, label: "Certified", sub: "10,000+ trained" },
+            { icon: Star, label: "Satisfaction", sub: "95% rating" },
           ],
-          stat: "1,284 Active",
-          badge: "Live",
-          color: "from-orange-500/20 to-orange-600/10",
+          stat: "Expert-Led",
+          badge: "Learning & Dev",
+          color: "from-purple-500/20 to-purple-600/10",
           testimonial: {
-            quote: '"HR management is now seamless."',
-            author: "James Chen, CHRO",
+            quote: '"Our team transformed after the training."',
+            author: "Sarah Johnson, L&D Manager",
           },
-          emoji: "👥",
-          title: "Team Success",
-        };
-      case "Ship equipment":
-        return {
-          floatingCards: [
-            { icon: Package, label: "Devices Shipped", sub: "3,847" },
-            { icon: Truck, label: "Delivery Time", sub: "3-5 Days" },
-            { icon: MapPin, label: "Tracking", sub: "Live" },
-          ],
-          stat: "3,847 Shipped",
-          badge: "In Transit",
-          color: "from-cyan-500/20 to-cyan-600/10",
-          testimonial: {
-            quote: '"Equipment arrives on time, every time."',
-            author: "Sarah Johnson, Operations",
-          },
-          emoji: "📦",
-          title: "Equipment Delivered",
+          emoji: "📚",
+          title: "Learning Excellence",
         };
       default:
         return {
           floatingCards: [
-            { icon: Globe2, label: "Global Talent", sub: "3+ countries" },
-            { icon: Users, label: "Active Candidates", sub: "5,000+" },
-            { icon: Shield, label: "Compliant", sub: "100% Local" },
+            { icon: Globe2, label: "Global Reach", sub: "3+ countries" },
+            { icon: Users, label: "Expert Team", sub: "500+ professionals" },
+            { icon: Shield, label: "Trusted", sub: "99.9% success rate" },
           ],
           stat: "Strategy Growth",
-          badge: "BPO expert",
+          badge: "BPO Expert",
           color: "from-blue-500/20 to-blue-600/10",
           testimonial: {
-            quote: '"ISurfGlobal makes global hiring effortless."',
+            quote: '"ISurfGlobal is our trusted BPO partner."',
             author: "Amelia Carter, COO",
           },
           emoji: "🌐",
-          title: "Global Talent",
+          title: "Global Excellence",
         };
     }
   };
