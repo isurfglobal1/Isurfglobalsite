@@ -126,6 +126,21 @@ const helpData = {
       ],
     },
     {
+      id: "call-center",
+      title: "Call Center",
+      description: "Everything you need to know about our 3CX-powered call center solutions.",
+      icon: Headphones,
+      articles: [
+        { id: "cc1", title: "What is 3CX?", slug: "what-is-3cx" },
+        { id: "cc2", title: "How does 3CX call center work?", slug: "how-3cx-works" },
+        { id: "cc3", title: "Setting up 3CX for your business", slug: "setup-3cx" },
+        { id: "cc4", title: "3CX features and capabilities", slug: "3cx-features" },
+        { id: "cc5", title: "Call routing and IVR setup", slug: "call-routing-ivr" },
+        { id: "cc6", title: "3CX integration with CRM", slug: "3cx-crm-integration" },
+        { id: "cc7", title: "Reporting and analytics in 3CX", slug: "3cx-reporting" },
+      ],
+    },
+    {
       id: "compliance",
       title: "Compliance",
       description: "Stay compliant with local laws.",
@@ -150,21 +165,6 @@ const helpData = {
         { id: "e1", title: "How to order equipment", slug: "order-equipment" },
         { id: "e2", title: "Shipping and tracking", slug: "shipping-tracking" },
         { id: "e3", title: "Equipment recovery process", slug: "equipment-recovery" },
-      ],
-    },
-    {
-      id: "call-center",
-      title: "Call Center",
-      description: "Everything you need to know about our 3CX-powered call center solutions.",
-      icon: Headphones,
-      articles: [
-        { id: "cc1", title: "What is 3CX?", slug: "what-is-3cx" },
-        { id: "cc2", title: "How does 3CX call center work?", slug: "how-3cx-works" },
-        { id: "cc3", title: "Setting up 3CX for your business", slug: "setup-3cx" },
-        { id: "cc4", title: "3CX features and capabilities", slug: "3cx-features" },
-        { id: "cc5", title: "Call routing and IVR setup", slug: "call-routing-ivr" },
-        { id: "cc6", title: "3CX integration with CRM", slug: "3cx-crm-integration" },
-        { id: "cc7", title: "Reporting and analytics in 3CX", slug: "3cx-reporting" },
       ],
     },
     {
@@ -578,14 +578,22 @@ function HelpCenter() {
 
           {/* Show categories only when not searching */}
           {!searchQuery && !selectedCategory && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {helpData.categories.map((c, index) => {
                 const Icon = c.icon;
+                // Determine if this category should span 2 columns
+                const isWideCategory = c.id === "call-center" || c.id === "247hr";
                 return (
-                  <ScrollReveal key={c.id} direction="up" delay={index * 75} threshold={0.1}>
+                  <ScrollReveal
+                    key={c.id}
+                    direction="up"
+                    delay={index * 75}
+                    threshold={0.1}
+                    className={isWideCategory ? "lg:col-span-2" : ""}
+                  >
                     <button
                       onClick={() => setSelectedCategory(c.id)}
-                      className="group text-left rounded-2xl border border-border bg-card p-6 hover:shadow-card hover:-translate-y-0.5 transition-all duration-300"
+                      className="group w-full text-left rounded-2xl border border-border bg-card p-6 hover:shadow-card hover:-translate-y-0.5 transition-all duration-300 h-full"
                     >
                       <div className="size-10 rounded-lg bg-accent-soft text-primary grid place-items-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
                         <Icon className="size-5" />

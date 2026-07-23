@@ -98,7 +98,7 @@ const clientLogos = [
 const metrics = [
   { value: 99.9, suffix: "%", label: "BPO success rate", decimals: 1 },
   { value: 24, suffix: "/7", label: "Customer support coverage" },
-  { value: 4, suffix: "", label: "Countries served" },
+  { value: 3, suffix: "", label: "Countries served" },
 ];
 
 function useReveal<T extends HTMLElement>(threshold = 0.2) {
@@ -315,12 +315,12 @@ export function HomePage() {
             { icon: Headphones, label: "Contact Center", sub: "3CX-powered" },
             { icon: Shield, label: "Security", sub: "Enterprise-grade" },
           ],
-          stat: "3CX Expert",
+          stat: "Call Center Expert",
           badge: "IT Solutions",
           color: "from-blue-500/20 to-blue-600/10",
           testimonial: {
             quote: '"ISurfGlobal transformed our IT infrastructure."',
-            author: "Michael Adebayo, CTO",
+            author: "Akinpelu Lateef, IT Expert",
           },
           emoji: "💻",
           title: "IT Excellence",
@@ -328,33 +328,33 @@ export function HomePage() {
       case "HR Outsourcing":
         return {
           floatingCards: [
-            { icon: Users, label: "Talent Pool", sub: "5,000+ candidates" },
-            { icon: UserCog, label: "HR Management", sub: "Complete lifecycle" },
-            { icon: Shield, label: "Compliance", sub: "Local & global" },
+            { icon: Users, label: "Talent Acquisition", sub: "5,000+ placed" },
+            { icon: UserCog, label: "HR Operations", sub: "End-to-end management" },
+            { icon: Shield, label: "Payroll & Compliance", sub: "100% accuracy" },
           ],
-          stat: "92% Faster",
-          badge: "HR Solutions",
+          stat: "99.9%",
+          badge: "Outsourcing Expert",
           color: "from-green-500/20 to-green-600/10",
           testimonial: {
-            quote: '"HR operations have never been smoother."',
-            author: "Chioma Okonkwo, HR Director",
+            quote: '"ISurfGlobal handles our entire HR function seamlessly."',
+            author: "Adewale Salawu, Head of HR",
           },
           emoji: "👥",
-          title: "HR Excellence",
+          title: "HR Outsourcing",
         };
       case "Procurement":
         return {
           floatingCards: [
-            { icon: Package, label: "Supply Chain", sub: "End-to-end" },
-            { icon: Truck, label: "Logistics", sub: "Real-time tracking" },
-            { icon: Shield, label: "Quality", sub: "100% compliance" },
+            { icon: Package, label: "Procurement", sub: "End-to-end sourcing" },
+            { icon: Globe2, label: "Global Supply Chain", sub: "International reach" },
+            { icon: Shield, label: "Quality Assurance", sub: "100% compliance" },
           ],
-          stat: "Streamlined",
-          badge: "Procurement",
+          stat: "Cost Optimized",
+          badge: "Procurement Expert",
           color: "from-amber-500/20 to-amber-600/10",
           testimonial: {
-            quote: '"Procurement efficiency increased by 60%."',
-            author: "Oluwaseun Adeleke, Operations",
+            quote: '"ISurfGlobal optimized our entire supply chain."',
+            author: "Adio Oluwaseyi, Head of Operations",
           },
           emoji: "📦",
           title: "Procurement Solutions",
@@ -371,7 +371,7 @@ export function HomePage() {
           color: "from-amber-500/20 to-amber-600/10",
           testimonial: {
             quote: '"The workspace solutions are top-notch."',
-            author: "James Okafor, CEO",
+            author: "Ologe Maro, MD",
           },
           emoji: "🏢",
           title: "Workspace Solutions",
@@ -379,8 +379,8 @@ export function HomePage() {
       case "L&D":
         return {
           floatingCards: [
-            { icon: GraduationCap, label: "Training Programs", sub: "50+ courses" },
-            { icon: Users, label: "Certified", sub: "10,000+ trained" },
+            { icon: GraduationCap, label: "Training Programs", sub: "20+ courses" },
+            { icon: Users, label: "Certified", sub: "3,000+ trained" },
             { icon: Star, label: "Satisfaction", sub: "95% rating" },
           ],
           stat: "Expert-Led",
@@ -388,7 +388,7 @@ export function HomePage() {
           color: "from-purple-500/20 to-purple-600/10",
           testimonial: {
             quote: '"Our team transformed after the training."',
-            author: "Sarah Johnson, L&D Manager",
+            author: "Adewale Salawu, Head of HR",
           },
           emoji: "📚",
           title: "Learning Excellence",
@@ -405,7 +405,7 @@ export function HomePage() {
           color: "from-blue-500/20 to-blue-600/10",
           testimonial: {
             quote: '"ISurfGlobal is our trusted BPO partner."',
-            author: "Amelia Carter, COO",
+            author: "Ologe Maro, MD",
           },
           emoji: "🌐",
           title: "Global Excellence",
@@ -496,20 +496,6 @@ export function HomePage() {
             {/* Overlay gradient for better text readability */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 
-            {/* Top stat card - changes based on selection */}
-            {/* <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 max-w-[160px] sm:max-w-[200px] md:max-w-[260px] animate-fade-in-up">
-              <div className="flex items-center justify-between gap-1.5 sm:gap-2 md:gap-3">
-                <span className="text-[8px] sm:text-[10px] md:text-[11px] font-bold tracking-widest text-success uppercase">
-                  {rightContent.badge}
-                </span>
-                <span className="size-3 sm:size-4 md:size-5 rounded-full bg-success grid place-items-center text-white">
-                  <Check className="size-2 sm:size-2.5 md:size-3" strokeWidth={4} />
-                </span>
-              </div>
-              <div className="mt-1 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight">
-                {rightContent.stat}
-              </div>
-            </div> */}
             {/* Top stat card - changes based on selection */}
             <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 max-w-[160px] sm:max-w-[200px] md:max-w-[260px] animate-fade-in-up">
               <div className="flex items-center justify-between gap-1.5 sm:gap-2 md:gap-3">

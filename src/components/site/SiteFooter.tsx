@@ -40,7 +40,7 @@ const cols = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-brand-900 text-white">
+    <footer className="bg-brand-600 text-white">
       <div className="container-page py-16">
         <div className="grid gap-12 lg:grid-cols-6">
           <div className="lg:col-span-2 space-y-4">
@@ -58,7 +58,7 @@ export function SiteFooter() {
             </p>
             <div className="flex items-center gap-3 pt-2">
               {/* LinkedIn */}
-              <a
+              {/* <a
                 href="https://in.linkedin.com/in/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -66,7 +66,7 @@ export function SiteFooter() {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="size-4" />
-              </a>
+              </a> */}
               {/* Twitter/X */}
               {/* <a
                 href="#"
