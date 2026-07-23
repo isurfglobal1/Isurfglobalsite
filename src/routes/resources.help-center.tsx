@@ -1,18 +1,100 @@
 import {
+  ChevronRight,
   Headphones,
   Monitor,
   Package,
   Plane,
   Search,
   ShieldCheck,
+  Sparkles,
   Users,
   Wallet,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { PageLayout } from "@/components/site/PageLayout";
 import { createFileRoute } from "@tanstack/react-router";
+
+// ScrollReveal Component
+function ScrollReveal({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+  threshold = 0.15,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right" | "scale" | "fade";
+  threshold?: number;
+}) {
+  const [ref, setRef] = useState<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!ref) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold },
+    );
+    obs.observe(ref);
+    return () => obs.disconnect();
+  }, [ref, threshold]);
+
+  const getAnimationClass = () => {
+    if (!visible) {
+      switch (direction) {
+        case "up":
+          return "opacity-0 translate-y-12";
+        case "down":
+          return "opacity-0 -translate-y-12";
+        case "left":
+          return "opacity-0 translate-x-12";
+        case "right":
+          return "opacity-0 -translate-x-12";
+        case "scale":
+          return "opacity-0 scale-95";
+        case "fade":
+          return "opacity-0";
+        default:
+          return "opacity-0 translate-y-12";
+      }
+    }
+    switch (direction) {
+      case "up":
+        return "opacity-100 translate-y-0";
+      case "down":
+        return "opacity-100 -translate-y-0";
+      case "left":
+        return "opacity-100 translate-x-0";
+      case "right":
+        return "opacity-100 -translate-x-0";
+      case "scale":
+        return "opacity-100 scale-100";
+      case "fade":
+        return "opacity-100";
+      default:
+        return "opacity-100 translate-y-0";
+    }
+  };
+
+  return (
+    <div
+      ref={setRef}
+      className={`transition-all duration-700 ease-out ${getAnimationClass()} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
 
 // 📦 All data in one place - easy to update, no services needed
 const helpData = {
@@ -411,33 +493,52 @@ function HelpCenter() {
   return (
     <PageLayout>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-brand-900 via-primary to-brand-700 text-white py-20">
-        <div className="container-page text-center max-w-2xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">How can we help?</h1>
-          <p className="text-white/80 mt-3">Search guides, FAQs, and product docs.</p>
-          <div className="mt-8 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
-            <input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search for answers..."
-              className="w-full rounded-full bg-white text-foreground pl-12 pr-5 py-4 text-base focus:outline-none focus:ring-2 focus:ring-white/40"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                ✕
-              </button>
-            )}
-          </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-primary to-brand-700 text-white py-20">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl" />
+        </div>
+
+        <div className="container-page text-center max-w-2xl mx-auto relative">
+          <ScrollReveal direction="fade" threshold={0.1}>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-4 py-1.5 text-xs font-medium ring-1 ring-white/20 mb-4">
+              <Sparkles className="size-3.5" /> Help Center
+            </div>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={100} threshold={0.1}>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">How can we help?</h1>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={200} threshold={0.1}>
+            <p className="text-white/80 mt-3">Search guides, FAQs, and product docs.</p>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={300} threshold={0.1}>
+            <div className="mt-8 relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
+              <input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search for answers..."
+                className="w-full rounded-full bg-white text-foreground pl-12 pr-5 py-4 text-base focus:outline-none focus:ring-2 focus:ring-white/40 transition-all duration-300"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors duration-300"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </ScrollReveal>
           {/* Search results count */}
           {searchQuery && (
-            <p className="text-white/70 text-sm mt-4">
-              Found {filteredArticles.length} result{filteredArticles.length !== 1 ? "s" : ""} for "
-              {searchQuery}"
-            </p>
+            <ScrollReveal direction="up" delay={400} threshold={0.1}>
+              <p className="text-white/70 text-sm mt-4">
+                Found {filteredArticles.length} result{filteredArticles.length !== 1 ? "s" : ""} for
+                "{searchQuery}"
+              </p>
+            </ScrollReveal>
           )}
         </div>
       </section>
@@ -445,51 +546,59 @@ function HelpCenter() {
       {/* Categories */}
       <section className="py-16">
         <div className="container-page">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold tracking-tight">
-              {searchQuery
-                ? "Search results"
-                : selectedCategory
-                  ? currentCategory?.title
-                  : "Browse by category"}
-            </h2>
-            <div className="flex items-center gap-3">
-              {selectedCategory && (
-                <button
-                  onClick={() => setSelectedCategory(null)}
-                  className="text-sm text-primary hover:underline"
-                >
-                  ← All categories
-                </button>
-              )}
-              {searchQuery && (
-                <button onClick={clearFilters} className="text-sm text-primary hover:underline">
-                  Clear search
-                </button>
-              )}
+          <ScrollReveal direction="up" threshold={0.1}>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold tracking-tight">
+                {searchQuery
+                  ? "Search results"
+                  : selectedCategory
+                    ? currentCategory?.title
+                    : "Browse by category"}
+              </h2>
+              <div className="flex items-center gap-3">
+                {selectedCategory && (
+                  <button
+                    onClick={() => setSelectedCategory(null)}
+                    className="text-sm text-primary hover:underline transition-colors duration-300"
+                  >
+                    ← All categories
+                  </button>
+                )}
+                {searchQuery && (
+                  <button
+                    onClick={clearFilters}
+                    className="text-sm text-primary hover:underline transition-colors duration-300"
+                  >
+                    Clear search
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Show categories only when not searching */}
           {!searchQuery && !selectedCategory && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {helpData.categories.map((c) => {
+              {helpData.categories.map((c, index) => {
                 const Icon = c.icon;
                 return (
-                  <button
-                    key={c.id}
-                    onClick={() => setSelectedCategory(c.id)}
-                    className="text-left rounded-2xl border border-border bg-card p-6 hover:shadow-card transition-shadow"
-                  >
-                    <div className="size-10 rounded-lg bg-accent-soft text-primary grid place-items-center mb-4">
-                      <Icon className="size-5" />
-                    </div>
-                    <h3 className="font-semibold">{c.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{c.description}</p>
-                    <p className="text-xs text-primary font-semibold mt-3">
-                      {c.articles.length} articles
-                    </p>
-                  </button>
+                  <ScrollReveal key={c.id} direction="up" delay={index * 75} threshold={0.1}>
+                    <button
+                      onClick={() => setSelectedCategory(c.id)}
+                      className="group text-left rounded-2xl border border-border bg-card p-6 hover:shadow-card hover:-translate-y-0.5 transition-all duration-300"
+                    >
+                      <div className="size-10 rounded-lg bg-accent-soft text-primary grid place-items-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                        <Icon className="size-5" />
+                      </div>
+                      <h3 className="font-semibold group-hover:text-primary transition-colors duration-300">
+                        {c.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">{c.description}</p>
+                      <p className="text-xs text-primary font-semibold mt-3">
+                        {c.articles.length} articles
+                      </p>
+                    </button>
+                  </ScrollReveal>
                 );
               })}
             </div>
@@ -500,55 +609,66 @@ function HelpCenter() {
             <div className="mt-6">
               {filteredArticles.length > 0 ? (
                 <ul className="space-y-2">
-                  {filteredArticles.map((article) => (
-                    <li key={article.id}>
-                      <button
-                        onClick={() => handleArticleClick(article)}
-                        className="w-full text-left block rounded-xl bg-card border border-border p-4 hover:border-primary transition-colors"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">{article.title}</span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground bg-accent-soft px-2 py-1 rounded-full">
-                              {article.category}
+                  {filteredArticles.map((article, index) => (
+                    <ScrollReveal
+                      key={article.id}
+                      direction="up"
+                      delay={index * 30}
+                      threshold={0.1}
+                    >
+                      <li>
+                        <button
+                          onClick={() => handleArticleClick(article)}
+                          className="w-full text-left block rounded-xl bg-card border border-border p-4 hover:border-primary hover:shadow-md transition-all duration-300 group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium group-hover:text-primary transition-colors duration-300">
+                              {article.title}
                             </span>
-                            {/* Show match indicator for search results */}
-                            {searchQuery && (
-                              <span className="text-xs text-primary/60">
-                                {article.title.toLowerCase().includes(searchQuery.toLowerCase())
-                                  ? "Title match"
-                                  : article.content
-                                        .toLowerCase()
-                                        .includes(searchQuery.toLowerCase())
-                                    ? "Content match"
-                                    : ""}
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-muted-foreground bg-accent-soft px-2 py-1 rounded-full">
+                                {article.category}
                               </span>
-                            )}
+                              {/* Show match indicator for search results */}
+                              {searchQuery && (
+                                <span className="text-xs text-primary/60">
+                                  {article.title.toLowerCase().includes(searchQuery.toLowerCase())
+                                    ? "Title match"
+                                    : article.content
+                                          .toLowerCase()
+                                          .includes(searchQuery.toLowerCase())
+                                      ? "Content match"
+                                      : ""}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                        {/* Show content preview for search results */}
-                        {searchQuery && article.content.length > 0 && (
-                          <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
-                            {article.content.substring(0, 150)}...
-                          </p>
-                        )}
-                      </button>
-                    </li>
+                          {/* Show content preview for search results */}
+                          {searchQuery && article.content.length > 0 && (
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                              {article.content.substring(0, 150)}...
+                            </p>
+                          )}
+                        </button>
+                      </li>
+                    </ScrollReveal>
                   ))}
                 </ul>
               ) : (
-                <div className="text-center py-12 text-muted-foreground">
-                  <p className="text-lg">No results found for "{searchQuery}"</p>
-                  <p className="text-sm mt-1">
-                    Try adjusting your search terms or browse by category
-                  </p>
-                  <button
-                    onClick={clearFilters}
-                    className="mt-4 text-primary font-medium hover:underline"
-                  >
-                    Clear filters
-                  </button>
-                </div>
+                <ScrollReveal direction="scale" threshold={0.1}>
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p className="text-lg">No results found for "{searchQuery}"</p>
+                    <p className="text-sm mt-1">
+                      Try adjusting your search terms or browse by category
+                    </p>
+                    <button
+                      onClick={clearFilters}
+                      className="mt-4 text-primary font-medium hover:underline transition-colors duration-300"
+                    >
+                      Clear filters
+                    </button>
+                  </div>
+                </ScrollReveal>
               )}
             </div>
           )}
@@ -559,17 +679,26 @@ function HelpCenter() {
       {!searchQuery && !selectedCategory && (
         <section className="py-16 bg-accent-soft/50">
           <div className="container-page max-w-3xl">
-            <h2 className="text-2xl font-bold tracking-tight mb-6">Popular questions</h2>
+            <ScrollReveal direction="up" threshold={0.1}>
+              <h2 className="text-2xl font-bold tracking-tight mb-6">Popular questions</h2>
+            </ScrollReveal>
             <ul className="space-y-2">
-              {popularArticles.map((article) => (
-                <li key={article.id}>
-                  <button
-                    onClick={() => handleArticleClick(article)}
-                    className="w-full text-left block rounded-xl bg-card border border-border p-4 hover:border-primary transition-colors text-sm font-medium"
-                  >
-                    {article.title}
-                  </button>
-                </li>
+              {popularArticles.map((article, index) => (
+                <ScrollReveal key={article.id} direction="up" delay={index * 50} threshold={0.1}>
+                  <li>
+                    <button
+                      onClick={() => handleArticleClick(article)}
+                      className="w-full text-left block rounded-xl bg-card border border-border p-4 hover:border-primary hover:shadow-md transition-all duration-300 group"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium group-hover:text-primary transition-colors duration-300">
+                          {article.title}
+                        </span>
+                        <ChevronRight className="size-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-300" />
+                      </div>
+                    </button>
+                  </li>
+                </ScrollReveal>
               ))}
             </ul>
           </div>
@@ -583,7 +712,7 @@ function HelpCenter() {
           onClick={closeModal}
         >
           <div
-            className="relative w-full max-w-2xl max-h-[80vh] bg-background rounded-2xl shadow-2xl border border-border overflow-hidden"
+            className="relative w-full max-w-2xl max-h-[80vh] bg-background rounded-2xl shadow-2xl border border-border overflow-hidden animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -596,9 +725,9 @@ function HelpCenter() {
               </div>
               <button
                 onClick={closeModal}
-                className="size-10 rounded-full hover:bg-accent transition-colors grid place-items-center"
+                className="size-10 rounded-full hover:bg-accent transition-colors grid place-items-center group"
               >
-                <X className="size-5" />
+                <X className="size-5 group-hover:rotate-90 transition-transform duration-300" />
               </button>
             </div>
 
@@ -651,10 +780,10 @@ function HelpCenter() {
             <div className="flex items-center justify-between p-4 border-t border-border bg-accent-soft/30">
               <span className="text-xs text-muted-foreground">Was this helpful?</span>
               <div className="flex gap-2">
-                <button className="px-4 py-1.5 text-sm rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                <button className="px-4 py-1.5 text-sm rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
                   Yes
                 </button>
-                <button className="px-4 py-1.5 text-sm rounded-full bg-accent text-foreground hover:bg-accent/80 transition-colors">
+                <button className="px-4 py-1.5 text-sm rounded-full bg-accent text-foreground hover:bg-accent/80 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
                   No
                 </button>
               </div>

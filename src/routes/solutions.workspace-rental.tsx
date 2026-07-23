@@ -1,20 +1,4 @@
-import {
-  ArrowRight,
-  Award,
-  Building2,
-  Clock,
-  Coffee,
-  Key,
-  Layout,
-  MapPin,
-  Monitor,
-  Rocket,
-  Shield,
-  Sparkles,
-  Target,
-  Users,
-  Wifi,
-} from "lucide-react";
+import { Building2, Monitor, Rocket, Shield, Target, Users } from "lucide-react";
 
 import { MarketingPage } from "@/components/site/MarketingPage";
 import { PageLayout } from "@/components/site/PageLayout";

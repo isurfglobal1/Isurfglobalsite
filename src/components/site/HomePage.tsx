@@ -101,43 +101,24 @@ const metrics = [
   { value: 4, suffix: "", label: "Countries served" },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "ISurfGlobal transformed our back-office operations. The team is responsive, accurate, and feels like an extension of our own.",
-    name: "Amelia Carter",
-    role: "COO, Northwind Logistics",
-    img: t1,
-  },
-  {
-    quote:
-      "Their compliance team helped us scale into three new regions without missing a beat. The expertise is unmatched.",
-    name: "Daniel Okafor",
-    role: "VP Operations, Acme Co.",
-    img: t2,
-  },
-  {
-    quote:
-      "From recruitment to L&D, ISurfGlobal delivers consistently. Our employee onboarding time dropped by 60%.",
-    name: "Priya Raman",
-    role: "Director of HR, Globex",
-    img: t3,
-  },
-];
-
-function useReveal<T extends HTMLElement>() {
+function useReveal<T extends HTMLElement>(threshold = 0.2) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => entry.isIntersecting && (setVisible(true), obs.disconnect()),
-      { threshold: 0.2 },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold },
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return { ref, visible };
 }
 
@@ -161,6 +142,66 @@ function Counter({ value, decimals = 0 }: { value: number; decimals?: number }) 
   return <span ref={ref}>{n.toFixed(decimals)}</span>;
 }
 
+// ScrollReveal component wrapper
+function ScrollReveal({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+  threshold = 0.2,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right" | "scale";
+  threshold?: number;
+}) {
+  const { ref, visible } = useReveal<HTMLDivElement>(threshold);
+
+  const getAnimationClass = () => {
+    if (!visible) {
+      switch (direction) {
+        case "up":
+          return "opacity-0 translate-y-12";
+        case "down":
+          return "opacity-0 -translate-y-12";
+        case "left":
+          return "opacity-0 translate-x-12";
+        case "right":
+          return "opacity-0 -translate-x-12";
+        case "scale":
+          return "opacity-0 scale-95";
+        default:
+          return "opacity-0 translate-y-12";
+      }
+    }
+    switch (direction) {
+      case "up":
+        return "opacity-100 translate-y-0";
+      case "down":
+        return "opacity-100 -translate-y-0";
+      case "left":
+        return "opacity-100 translate-x-0";
+      case "right":
+        return "opacity-100 -translate-x-0";
+      case "scale":
+        return "opacity-100 scale-100";
+      default:
+        return "opacity-100 translate-y-0";
+    }
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${getAnimationClass()} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -169,39 +210,6 @@ export function HomePage() {
   }>({ type: null, message: "" });
 
   const formRef = useRef<HTMLFormElement>(null);
-
-  // const useCases = [
-  //   {
-  //     label: "Hire anywhere",
-  //     icon: Globe2,
-  //     image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=800&fit=crop",
-  //     description: "Access global talent without borders",
-  //   },
-  //   {
-  //     label: "Run payroll",
-  //     icon: Wallet,
-  //     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=800&fit=crop",
-  //     description: "Process global payroll in minutes",
-  //   },
-  //   {
-  //     label: "Workspace Rental",
-  //     icon: Building2,
-  //     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop",
-  //     description: "Premium workspace solutions",
-  //   },
-  //   {
-  //     label: "Manage HR & people",
-  //     icon: UserCog,
-  //     image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=800&fit=crop",
-  //     description: "Centralize workforce management",
-  //   },
-  //   {
-  //     label: "Procurement",
-  //     icon: Package,
-  //     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=800&fit=crop",
-  //     description: "Get equipment anywhere",
-  //   },
-  // ];
 
   const useCases = [
     {
@@ -236,7 +244,7 @@ export function HomePage() {
     },
   ];
 
-  const [selected, setSelected] = useState("Hire anywhere");
+  const [selected, setSelected] = useState("IT Services");
   const activeUseCase = useCases.find((u) => u.label === selected) || useCases[0];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -413,9 +421,9 @@ export function HomePage() {
       <section className="relative overflow-hidden bg-background lg:h-[105dvh] min-h-[500px] flex flex-col">
         <div className="flex-1 container-page py-4 md:py-6 lg:py-8 grid lg:grid-cols-2 gap-4 md:gap-6 items-stretch h-full">
           {/* LEFT: dark gradient panel with select options - Full height */}
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-brand-700 via-primary to-brand-900 text-white p-6 md:p-8 lg:p-12 flex flex-col justify-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-0 h-full">
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-brand-700 via-primary to-brand-900 text-white p-6 md:p-8 lg:p-12 flex flex-col justify-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-0 h-full animate-float-in">
             <div className="absolute inset-0 opacity-25 [background:radial-gradient(circle_at_20%_10%,white,transparent_45%),radial-gradient(circle_at_85%_85%,white,transparent_40%)]" />
-            <div className="relative space-y-4 md:space-y-6 animate-float-in">
+            <div className="relative space-y-4 md:space-y-6">
               <a
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur border border-white/20 pl-1.5 pr-3 py-1.5 text-xs font-medium hover:bg-white/15 transition-colors w-fit"
@@ -433,7 +441,7 @@ export function HomePage() {
 
               <div className="space-y-3">
                 <p className="text-xs md:text-sm text-white/80">
-                  What would you like to do with ISurfSGlobal?
+                  What would you like to do with ISurfGlobal?
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 md:gap-2">
                   {useCases.map(({ label, icon: Icon }) => {
@@ -477,14 +485,19 @@ export function HomePage() {
 
           {/* RIGHT: Dynamic content based on selection - Full height */}
           <div className="relative rounded-3xl overflow-hidden min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-0 h-full">
-            <img
-              src={activeUseCase.image}
-              alt={selected}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+            <div className="absolute inset-0 w-full h-full">
+              <img
+                src={activeUseCase.image}
+                alt={selected}
+                className="w-full h-full object-cover animate-cinematic-zoom"
+              />
+            </div>
+
+            {/* Overlay gradient for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 
             {/* Top stat card - changes based on selection */}
-            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 max-w-[160px] sm:max-w-[200px] md:max-w-[260px]">
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 max-w-[160px] sm:max-w-[200px] md:max-w-[260px] animate-fade-in-up">
               <div className="flex items-center justify-between gap-1.5 sm:gap-2 md:gap-3">
                 <span className="text-[8px] sm:text-[10px] md:text-[11px] font-bold tracking-widest text-success uppercase">
                   {rightContent.badge}
@@ -503,7 +516,8 @@ export function HomePage() {
               {rightContent.floatingCards.map((card, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-1.5 sm:gap-2 bg-background/95 backdrop-blur rounded-full shadow-card pl-1.5 sm:pl-2 pr-2 sm:pr-3 md:pr-4 py-1 sm:py-1.5 md:py-2"
+                  className="flex items-center gap-1.5 sm:gap-2 bg-background/95 backdrop-blur rounded-full shadow-card pl-1.5 sm:pl-2 pr-2 sm:pr-3 md:pr-4 py-1 sm:py-1.5 md:py-2 animate-fade-in-left"
+                  style={{ animationDelay: `${idx * 150}ms` }}
                 >
                   <span className="size-4 sm:size-5 md:size-7 rounded-full bg-accent text-primary grid place-items-center">
                     <card.icon className="size-2.5 sm:size-3 md:size-3.5" />
@@ -514,13 +528,12 @@ export function HomePage() {
                   <span className="text-[8px] sm:text-[10px] md:text-xs text-muted-foreground">
                     {card.sub}
                   </span>
-                  <ChevronRight className="size-2.5 sm:size-3 md:size-3.5 text-muted-foreground rotate-90" />
                 </div>
               ))}
             </div>
 
             {/* Badge top-right - changes based on selection */}
-            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 md:top-8 md:right-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 hidden xs:block">
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 md:top-8 md:right-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 hidden xs:block animate-fade-in-down">
               <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 text-[9px] sm:text-xs md:text-sm font-semibold">
                 <span className="size-4 sm:size-5 md:size-6 rounded-full bg-accent grid place-items-center text-[8px] sm:text-[10px] md:text-xs">
                   {rightContent.emoji}
@@ -533,7 +546,10 @@ export function HomePage() {
             </div>
 
             {/* Testimonial bottom-right - changes based on selection */}
-            <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card p-2.5 sm:p-4 md:p-5 max-w-[150px] sm:max-w-[200px] md:max-w-[280px]">
+            <div
+              className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card p-2.5 sm:p-4 md:p-5 max-w-[150px] sm:max-w-[200px] md:max-w-[280px] animate-fade-in-up"
+              style={{ animationDelay: "300ms" }}
+            >
               <div className="inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 text-[8px] sm:text-[10px] md:text-xs font-semibold mb-0.5 sm:mb-1 md:mb-2">
                 <span className="size-3 sm:size-4 md:size-5 rounded-md bg-foreground grid place-items-center text-background">
                   <Star className="size-2 sm:size-2.5 md:size-3" />
@@ -577,206 +593,173 @@ export function HomePage() {
       </section>
 
       {/* SERVICES */}
-      <section id="services" className="bg-accent">
+      <section id="services" className="bg-accent overflow-hidden">
         <div className="container-page py-24">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-widest mb-3">
-              <span className="h-px w-8 bg-primary" /> What we do
+          <ScrollReveal direction="up" threshold={0.1}>
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-widest mb-3">
+                <span className="h-px w-8 bg-primary" /> What we do
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground">
+                Accomplish more in less time
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Comprehensive support across the enterprise including HR outsourcing, IT solutions,
+                procurement, screenings and facility services, all under one roof.
+              </p>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground">
-              Accomplish more in less time
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Comprehensive support across the enterprise including HR outsourcing, IT solutions,
-              procurement, screenings and facility services, all under one roof.
-            </p>
-          </div>
+          </ScrollReveal>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {services.map((s) => (
-              <article
-                key={s.title}
-                className="group rounded-2xl bg-background border border-border p-7 hover:shadow-card hover:-translate-y-1 transition-all"
-              >
-                <div className="size-12 rounded-xl bg-accent text-primary grid place-items-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <s.icon className="size-6" />
-                </div>
-                <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                <a
-                  href={s.href}
-                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all"
-                >
-                  Learn more <ArrowRight className="size-4" />
-                </a>
-              </article>
+            {services.map((s, index) => (
+              <ScrollReveal key={s.title} direction="up" delay={index * 100} threshold={0.1}>
+                <article className="group rounded-2xl bg-background border border-border p-7 hover:shadow-card hover:-translate-y-1 transition-all duration-300">
+                  <div className="size-12 rounded-xl bg-accent text-primary grid place-items-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                    <s.icon className="size-6" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <a
+                    href={s.href}
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all duration-300"
+                  >
+                    Learn more <ArrowRight className="size-4" />
+                  </a>
+                </article>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* EFFICIENCY / PROCESS */}
-      <section className="bg-background">
+      <section className="bg-background overflow-hidden">
         <div className="container-page py-24 grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-widest mb-3">
-              <span className="h-px w-8 bg-primary" /> Our process
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold">How we deliver excellence</h2>
-            <p className="mt-4 text-muted-foreground text-lg">
-              From first conversation to ongoing operations, every step is designed to meet your
-              requirements with accuracy, format, and deadline in mind.
-            </p>
-            <ul className="mt-8 space-y-5">
-              {[
-                {
-                  title: "Understanding requirements",
-                  desc: "We start by mapping your goals completely, then build toward them.",
-                },
-                {
-                  title: "Testing & validation",
-                  desc: "Pilot runs ensure final results exactly match what you expect.",
-                },
-                {
-                  title: "Continuous L&D",
-                  desc: "Our team upskills continuously through ongoing learning and development to maintain industry-leading accuracy.",
-                },
-                {
-                  title: "Quality assurance",
-                  desc: "Finished work meets your standards for accuracy, format, and deadlines.",
-                },
-              ].map((step, i) => (
-                <li key={step.title} className="flex gap-4">
-                  <div className="shrink-0 size-9 rounded-full bg-primary text-primary-foreground grid place-items-center font-semibold text-sm">
-                    {i + 1}
-                  </div>
-                  <div>
-                    <div className="font-semibold">{step.title}</div>
-                    <p className="text-sm text-muted-foreground mt-0.5">{step.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="relative">
-            <div className="rounded-3xl bg-gradient-to-br from-accent to-background border border-border p-8 shadow-card">
-              <div className="flex items-center justify-between">
-                <div className="font-semibold">Operations Dashboard</div>
-                <span className="text-xs px-2 py-1 rounded-full bg-success/10 text-success font-medium">
-                  Live
-                </span>
+          <ScrollReveal direction="left" threshold={0.1}>
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-widest mb-3">
+                <span className="h-px w-8 bg-primary" /> Our process
               </div>
-              <div className="mt-6 grid grid-cols-2 gap-4">
+              <h2 className="text-3xl md:text-4xl font-bold">How we deliver excellence</h2>
+              <p className="mt-4 text-muted-foreground text-lg">
+                From first conversation to ongoing operations, every step is designed to meet your
+                requirements with accuracy, format, and deadline in mind.
+              </p>
+              <ul className="mt-8 space-y-5">
                 {[
-                  { l: "Active tickets", v: "1,284" },
-                  { l: "Avg. handling", v: "2m 14s" },
-                  { l: "CSAT score", v: "4.9 / 5" },
-                  { l: "First-call resolution", v: "92%" },
-                ].map((m) => (
-                  <div key={m.l} className="rounded-xl bg-background border border-border p-4">
-                    <div className="text-xs text-muted-foreground">{m.l}</div>
-                    <div className="text-xl font-bold mt-1">{m.v}</div>
-                  </div>
+                  {
+                    title: "Understanding requirements",
+                    desc: "We start by mapping your goals completely, then build toward them.",
+                  },
+                  {
+                    title: "Testing & validation",
+                    desc: "Pilot runs ensure final results exactly match what you expect.",
+                  },
+                  {
+                    title: "Continuous L&D",
+                    desc: "Our team upskills continuously through ongoing learning and development to maintain industry-leading accuracy.",
+                  },
+                  {
+                    title: "Quality assurance",
+                    desc: "Finished work meets your standards for accuracy, format, and deadlines.",
+                  },
+                ].map((step, i) => (
+                  <li key={step.title} className="flex gap-4 group">
+                    <div className="shrink-0 size-9 rounded-full bg-primary text-primary-foreground grid place-items-center font-semibold text-sm transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                      {i + 1}
+                    </div>
+                    <div>
+                      <div className="font-semibold">{step.title}</div>
+                      <p className="text-sm text-muted-foreground mt-0.5">{step.desc}</p>
+                    </div>
+                  </li>
                 ))}
-              </div>
-              <div className="mt-6 rounded-xl bg-background border border-border p-4">
-                <div className="text-xs text-muted-foreground mb-3">Weekly throughput</div>
-                <div className="flex items-end gap-2 h-24">
-                  {[40, 65, 50, 78, 60, 90, 72].map((h, i) => (
+              </ul>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal direction="right" delay={200} threshold={0.1}>
+            <div className="relative">
+              <div className="rounded-3xl bg-gradient-to-br from-accent to-background border border-border p-8 shadow-card hover:shadow-xl transition-shadow duration-500">
+                <div className="flex items-center justify-between">
+                  <div className="font-semibold">Operations Dashboard</div>
+                  <span className="text-xs px-2 py-1 rounded-full bg-success/10 text-success font-medium animate-pulse">
+                    Live
+                  </span>
+                </div>
+                <div className="mt-6 grid grid-cols-2 gap-4">
+                  {[
+                    { l: "Active tickets", v: "1,284" },
+                    { l: "Avg. handling", v: "2m 14s" },
+                    { l: "CSAT score", v: "4.9 / 5" },
+                    { l: "First-call resolution", v: "92%" },
+                  ].map((m) => (
                     <div
-                      key={i}
-                      className="flex-1 rounded-t-md bg-primary/80"
-                      style={{ height: `${h}%` }}
-                    />
+                      key={m.l}
+                      className="rounded-xl bg-background border border-border p-4 hover:border-primary/30 transition-colors duration-300"
+                    >
+                      <div className="text-xs text-muted-foreground">{m.l}</div>
+                      <div className="text-xl font-bold mt-1">{m.v}</div>
+                    </div>
                   ))}
+                </div>
+                <div className="mt-6 rounded-xl bg-background border border-border p-4">
+                  <div className="text-xs text-muted-foreground mb-3">Weekly throughput</div>
+                  <div className="flex items-end gap-2 h-24">
+                    {[40, 65, 50, 78, 60, 90, 72].map((h, i) => (
+                      <div
+                        key={i}
+                        className="flex-1 rounded-t-md bg-primary/80 hover:bg-primary transition-colors duration-300"
+                        style={{ height: `${h}%` }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      {/* <section className="bg-background">
-        <div className="container-page py-24">
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-widest mb-3">
-              <span className="h-px w-8 bg-primary" /> Customer stories
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold">Hear it from the teams we serve</h2>
-            <p className="mt-4 text-muted-foreground text-lg">
-              Operations leaders trust ISurfGlobal to keep their global businesses running smoothly.
-            </p>
-          </div>
-          <div className="mt-14 grid md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <figure
-                key={t.name}
-                className="rounded-2xl border border-border bg-background p-7 hover:shadow-card transition-shadow"
-              >
-                <div className="flex gap-0.5 text-primary">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="size-4 fill-current" />
-                  ))}
-                </div>
-                <blockquote className="mt-4 text-foreground leading-relaxed">
-                  "{t.quote}"
-                </blockquote>
-                <figcaption className="mt-6 flex items-center gap-3">
-                  <img
-                    src={t.img}
-                    alt={t.name}
-                    loading="lazy"
-                    width={48}
-                    height={48}
-                    className="size-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <div className="font-semibold text-sm">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">{t.role}</div>
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
       {/* METRICS */}
-      <section className="bg-primary text-primary-foreground">
+      <section className="bg-primary text-primary-foreground overflow-hidden">
         <div className="container-page py-20">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold">Trusted globally. Delivered locally.</h2>
-            <p className="mt-3 text-white/80">
-              Numbers that reflect a decade of consistent service.
-            </p>
-          </div>
+          <ScrollReveal direction="up" threshold={0.1}>
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold">
+                Trusted globally. Delivered locally.
+              </h2>
+              <p className="mt-3 text-white/80">
+                Numbers that reflect a decade of consistent service.
+              </p>
+            </div>
+          </ScrollReveal>
           <div className="mt-12 grid grid-cols-2 lg:grid-cols-3 gap-8">
-            {metrics.map((m) => (
-              <div
-                key={m.label}
-                className="text-center border-l border-white/15 first:border-l-0 lg:px-4"
-              >
-                <div className="text-4xl md:text-5xl font-bold tracking-tight">
-                  <Counter value={m.value} decimals={m.decimals || 0} />
-                  {m.suffix}
+            {metrics.map((m, index) => (
+              <ScrollReveal key={m.label} direction="scale" delay={index * 150} threshold={0.1}>
+                <div className="text-center border-l border-white/15 first:border-l-0 lg:px-4">
+                  <div className="text-4xl md:text-5xl font-bold tracking-tight">
+                    <Counter value={m.value} decimals={m.decimals || 0} />
+                    {m.suffix}
+                  </div>
+                  <div className="mt-2 text-sm text-white/80">{m.label}</div>
                 </div>
-                <div className="mt-2 text-sm text-white/80">{m.label}</div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* WHY US */}
-      <section className="bg-accent">
+      <section className="bg-accent overflow-hidden">
         <div className="container-page py-24">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl font-bold">Why teams choose iSurf Global</h2>
-            <p className="mt-4 text-muted-foreground text-lg">
-              We combine HR, IT, and workspace expertise to create lasting solutions for your
-              business.
-            </p>
-          </div>
+          <ScrollReveal direction="up" threshold={0.1}>
+            <div className="max-w-2xl mx-auto text-center">
+              <h2 className="text-3xl md:text-5xl font-bold">Why teams choose iSurf Global</h2>
+              <p className="mt-4 text-muted-foreground text-lg">
+                We combine HR, IT, and workspace expertise to create lasting solutions for your
+                business.
+              </p>
+            </div>
+          </ScrollReveal>
           <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
@@ -799,117 +782,118 @@ export function HomePage() {
                 title: "Learning & Development",
                 desc: "Expert-led L&D programs that develop high-performing teams across call center, HR, and corporate functions.",
               },
-            ].map((w) => (
-              <div
-                key={w.title}
-                className="rounded-2xl bg-background border border-border p-6 hover:shadow-card transition-shadow"
-              >
-                <div className="size-11 rounded-xl bg-primary text-primary-foreground grid place-items-center">
-                  <w.icon className="size-5" />
+            ].map((w, index) => (
+              <ScrollReveal key={w.title} direction="up" delay={index * 100} threshold={0.1}>
+                <div className="rounded-2xl bg-background border border-border p-6 hover:shadow-card hover:-translate-y-1 transition-all duration-300">
+                  <div className="size-11 rounded-xl bg-primary text-primary-foreground grid place-items-center transition-all duration-300 group-hover:scale-110">
+                    <w.icon className="size-5" />
+                  </div>
+                  <h3 className="mt-5 font-semibold">{w.title}</h3>
+                  <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
                 </div>
-                <h3 className="mt-5 font-semibold">{w.title}</h3>
-                <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section id="demo" className="bg-background">
+      <section id="demo" className="bg-background overflow-hidden">
         <div className="container-page py-24">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-brand-600 to-brand-700 text-white p-10 md:p-16 grid lg:grid-cols-2 gap-10 items-center">
-            <div className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_80%_20%,white,transparent_40%)]" />
-            <div className="relative">
-              <h2 className="text-3xl md:text-4xl font-bold">
-                Ready to streamline your operations?
-              </h2>
-              <p className="mt-3 text-white/85 max-w-md">
-                Talk to our team about a tailored BPO plan for your business. No setup fees, no
-                long-term lock-in.
-              </p>
-            </div>
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className="relative grid gap-3 bg-background text-foreground p-6 rounded-2xl shadow-card"
-            >
-              {/* Status Messages */}
-              {submitStatus.type === "success" && (
-                <div className="flex items-start gap-3 bg-success/10 border border-success/20 rounded-lg p-3">
-                  <Check className="size-5 text-success shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-success">Message Sent Successfully!</p>
-                    <p className="text-xs text-success/80 mt-0.5">{submitStatus.message}</p>
-                  </div>
-                </div>
-              )}
-
-              {submitStatus.type === "error" && (
-                <div className="flex items-start gap-3 bg-error/10 border border-error/20 rounded-lg p-3">
-                  <AlertCircle className="size-5 text-error shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-error">Something went wrong</p>
-                    <p className="text-xs text-error/80 mt-0.5">{submitStatus.message}</p>
-                  </div>
-                </div>
-              )}
-
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div>
-                  <input
-                    required
-                    name="name"
-                    placeholder="Full name"
-                    className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  />
-                </div>
-                <div>
-                  <input
-                    required
-                    type="email"
-                    name="email"
-                    placeholder="Work email"
-                    className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  />
-                </div>
+          <ScrollReveal direction="up" threshold={0.1}>
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-brand-600 to-brand-700 text-white p-10 md:p-16 grid lg:grid-cols-2 gap-10 items-center">
+              <div className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_80%_20%,white,transparent_40%)]" />
+              <div className="relative">
+                <h2 className="text-3xl md:text-4xl font-bold">
+                  Ready to streamline your operations?
+                </h2>
+                <p className="mt-3 text-white/85 max-w-md">
+                  Talk to our team about a tailored BPO plan for your business. No setup fees, no
+                  long-term lock-in.
+                </p>
               </div>
-
-              <div>
-                <input
-                  required
-                  name="company"
-                  placeholder="Company"
-                  className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                />
-              </div>
-
-              <div>
-                <textarea
-                  required
-                  name="message"
-                  placeholder="What can we help with?"
-                  rows={3}
-                  className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="mt-1 rounded-full bg-primary text-primary-foreground font-semibold px-5 py-3 text-sm hover:bg-brand-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                className="relative grid gap-3 bg-background text-foreground p-6 rounded-2xl shadow-card hover:shadow-2xl transition-shadow duration-500"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="size-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  "Request a demo"
+                {/* Status Messages */}
+                {submitStatus.type === "success" && (
+                  <div className="flex items-start gap-3 bg-success/10 border border-success/20 rounded-lg p-3 animate-fade-in-up">
+                    <Check className="size-5 text-success shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-success">Message Sent Successfully!</p>
+                      <p className="text-xs text-success/80 mt-0.5">{submitStatus.message}</p>
+                    </div>
+                  </div>
                 )}
-              </button>
-            </form>
-          </div>
+
+                {submitStatus.type === "error" && (
+                  <div className="flex items-start gap-3 bg-error/10 border border-error/20 rounded-lg p-3 animate-fade-in-up">
+                    <AlertCircle className="size-5 text-error shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-error">Something went wrong</p>
+                      <p className="text-xs text-error/80 mt-0.5">{submitStatus.message}</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div>
+                    <input
+                      required
+                      name="name"
+                      placeholder="Full name"
+                      className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-300 focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      required
+                      type="email"
+                      name="email"
+                      placeholder="Work email"
+                      className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-300 focus:border-primary"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <input
+                    required
+                    name="company"
+                    placeholder="Company"
+                    className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-300 focus:border-primary"
+                  />
+                </div>
+
+                <div>
+                  <textarea
+                    required
+                    name="message"
+                    placeholder="What can we help with?"
+                    rows={3}
+                    className="w-full rounded-lg border border-input px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none transition-all duration-300 focus:border-primary"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="mt-1 rounded-full bg-primary text-primary-foreground font-semibold px-5 py-3 text-sm hover:bg-brand-600 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    "Request a demo"
+                  )}
+                </button>
+              </form>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </main>

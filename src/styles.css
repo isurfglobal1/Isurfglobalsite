@@ -130,12 +130,10 @@
     background: var(--brand-600);
   }
 
-  /* Optional: Style for when the scrollbar is being dragged */
   ::-webkit-scrollbar-thumb:active {
     background: var(--brand-700);
   }
 
-  /* Optional: Style for corner when both scrollbars are visible */
   ::-webkit-scrollbar-corner {
     background: var(--muted);
   }
@@ -165,6 +163,10 @@
   padding-inline: 1.25rem;
 }
 
+/* ============================================
+   BASE ANIMATIONS
+   ============================================ */
+
 @keyframes float-in {
   from {
     opacity: 0;
@@ -175,6 +177,7 @@
     transform: translateY(0);
   }
 }
+
 @utility animate-float-in {
   animation: float-in 0.6s ease-out both;
 }
@@ -187,36 +190,383 @@
     transform: translateX(-50%);
   }
 }
+
 @utility animate-marquee {
   animation: marquee 30s linear infinite;
+}
+
+/* ============================================
+   CINEMATIC ZOOM
+   ============================================ */
+
+@keyframes cinematicZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(2);
+  }
+}
+
+.animate-cinematic-zoom {
+  animation: cinematicZoom 15s ease-in-out infinite alternate;
+}
+
+/* ============================================
+   FADE IN ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.8s ease-out forwards;
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* ============================================
+   SCROLL REVEAL
+   ============================================ */
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   PULSE ANIMATIONS
+   ============================================ */
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+/* ============================================
+   FLOAT ANIMATIONS
+   ============================================ */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ============================================
+   IMAGE REVEAL
+   ============================================ */
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.95) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-image-reveal {
+  animation: imageReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ============================================
+   SHIMMER EFFECTS
+   ============================================ */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer-card {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.group:hover .shimmer-effect {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(25, 120, 229, 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-card 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.group:hover .shimmer-slide {
+  animation: shimmer-slide 1.5s ease-in-out;
+}
+
+/* ============================================
+   GRADIENT TEXT
+   ============================================ */
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-text {
+  background: linear-gradient(90deg, #1978e5, #6c5ce7, #1978e5);
+  background-size: 200% auto;
+  animation: gradient-shift 4s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   MODAL ANIMATIONS
+   ============================================ */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+/* ============================================
+   STAGGERED CHILDREN
+   ============================================ */
+
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.stagger-children > *:nth-child(2) {
+  animation-delay: 100ms;
+}
+.stagger-children > *:nth-child(3) {
+  animation-delay: 200ms;
+}
+.stagger-children > *:nth-child(4) {
+  animation-delay: 300ms;
+}
+.stagger-children > *:nth-child(5) {
+  animation-delay: 400ms;
+}
+.stagger-children > *:nth-child(6) {
+  animation-delay: 500ms;
+}
+
+.stagger-list > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.stagger-list > *:nth-child(2) {
+  animation-delay: 50ms;
+}
+.stagger-list > *:nth-child(3) {
+  animation-delay: 100ms;
+}
+.stagger-list > *:nth-child(4) {
+  animation-delay: 150ms;
+}
+.stagger-list > *:nth-child(5) {
+  animation-delay: 200ms;
+}
+.stagger-list > *:nth-child(6) {
+  animation-delay: 250ms;
+}
+.stagger-list > *:nth-child(7) {
+  animation-delay: 300ms;
+}
+.stagger-list > *:nth-child(8) {
+  animation-delay: 350ms;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.hover-scale {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.glow-hover {
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 30px rgba(25, 120, 229, 0.1);
 }
 
 /* ============================================
    HIDE GOOGLE TRANSLATE UI ELEMENTS
    ============================================ */
 
-/* Hide the Google Translate banner that appears at the top */
 .goog-te-banner-frame {
   display: none !important;
 }
 
-/* Reset body top margin that Google Translate adds */
 body {
   top: 0px !important;
   position: static !important;
 }
 
-/* Hide the Google Translate toolbar */
 #goog-gt-tt {
   display: none !important;
 }
 
-/* Hide the Google Translate dropdown text */
 .goog-te-combo {
   display: none !important;
 }
 
-/* Hide Google Translate gadget styling */
 .goog-te-gadget {
   font-family: inherit !important;
   color: transparent !important;
@@ -237,38 +587,31 @@ body {
   text-shadow: none !important;
 }
 
-/* Hide the Google Translate spinner */
 .goog-te-spinner-pos {
   display: none !important;
 }
 
-/* Hide the Google Translate notification */
 .VIpgJd-ZVi9od-ORHb-OEVmcd {
   display: none !important;
 }
 
-/* Hide the Google Translate toolbar iframe */
 .VIpgJd-ZVi9od-ORHb {
   display: none !important;
 }
 
-/* Hide the Google Translate logo */
 .goog-logo-link {
   display: none !important;
 }
 
-/* Hide the Google Translate attribution */
 .goog-te-gadget img {
   display: none !important;
 }
 
-/* Hide the Google Translate text */
 .goog-te-gadget span {
   color: transparent !important;
   font-size: 0 !important;
 }
 
-/* Hide the Google Translate toolbar on mobile */
 @media (max-width: 768px) {
   .goog-te-gadget {
     height: 0 !important;
