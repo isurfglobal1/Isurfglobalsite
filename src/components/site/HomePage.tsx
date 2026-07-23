@@ -396,12 +396,12 @@ export function HomePage() {
       default:
         return {
           floatingCards: [
-            { icon: Globe2, label: "Global Talent", sub: "150+ Countries" },
+            { icon: Globe2, label: "Global Talent", sub: "3+ countries" },
             { icon: Users, label: "Active Candidates", sub: "5,000+" },
             { icon: Shield, label: "Compliant", sub: "100% Local" },
           ],
-          stat: "150+ Countries",
-          badge: "Global Network",
+          stat: "Strategy Growth",
+          badge: "BPO expert",
           color: "from-blue-500/20 to-blue-600/10",
           testimonial: {
             quote: '"ISurfGlobal makes global hiring effortless."',
@@ -497,7 +497,7 @@ export function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 
             {/* Top stat card - changes based on selection */}
-            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 max-w-[160px] sm:max-w-[200px] md:max-w-[260px] animate-fade-in-up">
+            {/* <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 max-w-[160px] sm:max-w-[200px] md:max-w-[260px] animate-fade-in-up">
               <div className="flex items-center justify-between gap-1.5 sm:gap-2 md:gap-3">
                 <span className="text-[8px] sm:text-[10px] md:text-[11px] font-bold tracking-widest text-success uppercase">
                   {rightContent.badge}
@@ -507,6 +507,26 @@ export function HomePage() {
                 </span>
               </div>
               <div className="mt-1 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight">
+                {rightContent.stat}
+              </div>
+            </div> */}
+            {/* Top stat card - changes based on selection */}
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 bg-background/95 backdrop-blur text-foreground rounded-xl md:rounded-2xl shadow-card px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 max-w-[160px] sm:max-w-[200px] md:max-w-[260px] animate-fade-in-up">
+              <div className="flex items-center justify-between gap-1.5 sm:gap-2 md:gap-3">
+                <span className="text-[8px] sm:text-[10px] md:text-[11px] font-bold tracking-widest text-success uppercase">
+                  {rightContent.badge}
+                </span>
+                <span className="size-3 sm:size-4 md:size-5 rounded-full bg-success grid place-items-center text-white">
+                  <Check className="size-2 sm:size-2.5 md:size-3" strokeWidth={4} />
+                </span>
+              </div>
+              <div
+                className={`mt-1 font-bold tracking-tight ${
+                  rightContent.stat === "Strategy Growth"
+                    ? "text-base sm:text-lg md:text-xl lg:text-xl"
+                    : "text-lg sm:text-xl md:text-2xl lg:text-3xl"
+                }`}
+              >
                 {rightContent.stat}
               </div>
             </div>
