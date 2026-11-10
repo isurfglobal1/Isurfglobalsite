@@ -17,6 +17,7 @@ import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CareersIndexRouteImport } from './routes/careers.index'
 import { Route as UseCasesOverviewRouteImport } from './routes/use-cases.overview'
 import { Route as SolutionsWorkspaceRentalRouteImport } from './routes/solutions.workspace-rental'
 import { Route as SolutionsTrainingRouteImport } from './routes/solutions.training'
@@ -27,6 +28,7 @@ import { Route as SolutionsBackgroundCheckRouteImport } from './routes/solutions
 import { Route as SolutionsBackOfficeRouteImport } from './routes/solutions.back-office'
 import { Route as ResourcesHelpCenterRouteImport } from './routes/resources.help-center'
 import { Route as ResourcesCaseStudiesRouteImport } from './routes/resources.case-studies'
+import { Route as CareersSlugRouteImport } from './routes/careers.$slug'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -67,6 +69,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CareersIndexRoute = CareersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareersRoute,
 } as any)
 const UseCasesOverviewRoute = UseCasesOverviewRouteImport.update({
   id: '/use-cases/overview',
@@ -120,16 +127,22 @@ const ResourcesCaseStudiesRoute = ResourcesCaseStudiesRouteImport.update({
   path: '/resources/case-studies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareersSlugRoute = CareersSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CareersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/careers': typeof CareersRoute
+  '/careers': typeof CareersRouteWithChildren
   '/compliance': typeof ComplianceRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/careers/$slug': typeof CareersSlugRoute
   '/resources/case-studies': typeof ResourcesCaseStudiesRoute
   '/resources/help-center': typeof ResourcesHelpCenterRoute
   '/solutions/back-office': typeof SolutionsBackOfficeRoute
@@ -140,16 +153,17 @@ export interface FileRoutesByFullPath {
   '/solutions/training': typeof SolutionsTrainingRoute
   '/solutions/workspace-rental': typeof SolutionsWorkspaceRentalRoute
   '/use-cases/overview': typeof UseCasesOverviewRoute
+  '/careers/': typeof CareersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/careers': typeof CareersRoute
   '/compliance': typeof ComplianceRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/careers/$slug': typeof CareersSlugRoute
   '/resources/case-studies': typeof ResourcesCaseStudiesRoute
   '/resources/help-center': typeof ResourcesHelpCenterRoute
   '/solutions/back-office': typeof SolutionsBackOfficeRoute
@@ -160,17 +174,19 @@ export interface FileRoutesByTo {
   '/solutions/training': typeof SolutionsTrainingRoute
   '/solutions/workspace-rental': typeof SolutionsWorkspaceRentalRoute
   '/use-cases/overview': typeof UseCasesOverviewRoute
+  '/careers': typeof CareersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/careers': typeof CareersRoute
+  '/careers': typeof CareersRouteWithChildren
   '/compliance': typeof ComplianceRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/careers/$slug': typeof CareersSlugRoute
   '/resources/case-studies': typeof ResourcesCaseStudiesRoute
   '/resources/help-center': typeof ResourcesHelpCenterRoute
   '/solutions/back-office': typeof SolutionsBackOfficeRoute
@@ -181,6 +197,7 @@ export interface FileRoutesById {
   '/solutions/training': typeof SolutionsTrainingRoute
   '/solutions/workspace-rental': typeof SolutionsWorkspaceRentalRoute
   '/use-cases/overview': typeof UseCasesOverviewRoute
+  '/careers/': typeof CareersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -193,6 +210,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/privacy'
     | '/terms'
+    | '/careers/$slug'
     | '/resources/case-studies'
     | '/resources/help-center'
     | '/solutions/back-office'
@@ -203,16 +221,17 @@ export interface FileRouteTypes {
     | '/solutions/training'
     | '/solutions/workspace-rental'
     | '/use-cases/overview'
+    | '/careers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/careers'
     | '/compliance'
     | '/contact'
     | '/cookies'
     | '/privacy'
     | '/terms'
+    | '/careers/$slug'
     | '/resources/case-studies'
     | '/resources/help-center'
     | '/solutions/back-office'
@@ -223,6 +242,7 @@ export interface FileRouteTypes {
     | '/solutions/training'
     | '/solutions/workspace-rental'
     | '/use-cases/overview'
+    | '/careers'
   id:
     | '__root__'
     | '/'
@@ -233,6 +253,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/privacy'
     | '/terms'
+    | '/careers/$slug'
     | '/resources/case-studies'
     | '/resources/help-center'
     | '/solutions/back-office'
@@ -243,12 +264,13 @@ export interface FileRouteTypes {
     | '/solutions/training'
     | '/solutions/workspace-rental'
     | '/use-cases/overview'
+    | '/careers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CareersRoute: typeof CareersRoute
+  CareersRoute: typeof CareersRouteWithChildren
   ComplianceRoute: typeof ComplianceRoute
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
@@ -324,6 +346,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/careers/': {
+      id: '/careers/'
+      path: '/'
+      fullPath: '/careers/'
+      preLoaderRoute: typeof CareersIndexRouteImport
+      parentRoute: typeof CareersRoute
+    }
     '/use-cases/overview': {
       id: '/use-cases/overview'
       path: '/use-cases/overview'
@@ -394,13 +423,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesCaseStudiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/careers/$slug': {
+      id: '/careers/$slug'
+      path: '/$slug'
+      fullPath: '/careers/$slug'
+      preLoaderRoute: typeof CareersSlugRouteImport
+      parentRoute: typeof CareersRoute
+    }
   }
 }
+
+interface CareersRouteChildren {
+  CareersSlugRoute: typeof CareersSlugRoute
+  CareersIndexRoute: typeof CareersIndexRoute
+}
+
+const CareersRouteChildren: CareersRouteChildren = {
+  CareersSlugRoute: CareersSlugRoute,
+  CareersIndexRoute: CareersIndexRoute,
+}
+
+const CareersRouteWithChildren =
+  CareersRoute._addFileChildren(CareersRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CareersRoute: CareersRoute,
+  CareersRoute: CareersRouteWithChildren,
   ComplianceRoute: ComplianceRoute,
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,

@@ -194,7 +194,7 @@ export const Route = createFileRoute("/about")({
       </section>
 
       {/* Our Story with Video */}
-      <section className="my-[70px] py-16 bg-background border-b border-border">
+      <section className="my-[70px] py-5 md:py-16 bg-background border-b border-border">
         <div className="container-page">
           <div className="max-w-4xl mx-auto">
             <ScrollReveal direction="up" threshold={0.1}>
@@ -270,7 +270,7 @@ export const Route = createFileRoute("/about")({
       </section>
 
       {/* Core Values Cards */}
-      <section className="my-[70px] py-16 bg-accent-soft/30">
+      <section className="my-[70px] py-5 md:py-16 bg-accent-soft/30">
         <div className="container-page">
           <ScrollReveal direction="up" threshold={0.1}>
             <div className="text-center mb-12">
@@ -320,32 +320,32 @@ export const Route = createFileRoute("/about")({
       </section>
 
       {/* Mission & Vision with Images */}
-      <section className="my-[70px] py-16 bg-background">
+      <section className="my-[70px] py-5 md:py-16 bg-background">
         <div className="container-page">
           <div className="grid md:grid-cols-2 gap-12">
             {/* Mission */}
             <ScrollReveal direction="left" threshold={0.1}>
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
+              <div className="flex flex-col gap-4">
+                <div className="order-2 md:order-none inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary w-fit">
                   <Target className="size-3.5" /> Our Mission
                 </div>
-                <h3 className="text-2xl font-bold">
+                <h3 className="order-3 md:order-none text-2xl font-bold">
                   Delivering service excellence and great customer experience
                 </h3>
-                <div className="rounded-2xl overflow-hidden shadow-card group">
+                <div className="order-1 md:order-none rounded-2xl overflow-hidden shadow-card group">
                   <img
                     src={mission}
                     alt="ISurfGlobal mission"
                     className="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <p className="text-muted-foreground leading-relaxed text-justify">
+                <p className="order-4 md:order-none text-muted-foreground leading-relaxed text-justify">
                   ISurf Global is passionate about delivering service excellence and great customer
                   experience. We create innovative solutions, which deliver compelling outsourcing
                   services, creating value for shareholders, clients and employees, whilst
                   maintaining a broad commitment to the environment and society.
                 </p>
-                <ul className="space-y-2">
+                <ul className="order-5 md:order-none space-y-2">
                   <li className="flex items-start gap-2 group">
                     <CheckCircle className="size-4 text-primary shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
                     <span className="text-sm">
@@ -359,7 +359,7 @@ export const Route = createFileRoute("/about")({
                     </span>
                   </li>
                 </ul>
-                <div className="bg-success/10 border border-success/20 rounded-lg p-4 inline-block hover:shadow-lg transition-shadow duration-300">
+                <div className="order-6 md:order-none bg-success/10 border border-success/20 rounded-lg p-4 w-fit hover:shadow-lg transition-shadow duration-300">
                   <p className="text-sm font-semibold text-success">
                     The success level of our service delivery has been 99.95%
                   </p>
@@ -398,7 +398,7 @@ export const Route = createFileRoute("/about")({
       </section>
 
       {/* Stats Section */}
-      <section className="my-[70px] p-16 bg-primary text-primary-foreground">
+      <section className="my-[70px] py-5 md:py-16 bg-primary text-primary-foreground">
         <div className="container-page">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -421,10 +421,10 @@ export const Route = createFileRoute("/about")({
       </section>
 
       {/* Commitment to Excellence */}
-      <section className="my-[70px] py-16 bg-background">
+      <section className="my-[70px] py-5 md:py-16 bg-background">
         <div className="container-page">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <div className="space-y-6 order-2 lg:order-1">
               <ScrollReveal direction="up" threshold={0.1}>
                 <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
                   <Award className="size-3.5" /> Our Commitment
@@ -486,12 +486,17 @@ export const Route = createFileRoute("/about")({
                 ))}
               </div>
             </div>
-            <ScrollReveal direction="right" delay={200} threshold={0.1}>
-              <div className="rounded-2xl overflow-hidden shadow-card group">
+            <ScrollReveal
+              direction="right"
+              delay={200}
+              threshold={0.1}
+              className="order-1 lg:order-2"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-card group h-64 lg:h-auto">
                 <img
                   src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop"
                   alt="ISurfGlobal team collaborating"
-                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full lg:h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
             </ScrollReveal>
@@ -500,15 +505,15 @@ export const Route = createFileRoute("/about")({
       </section>
 
       {/* How We Achieve Excellence */}
-      <section className="my-[70px] py-16 bg-accent-soft/30">
+      <section className="my-8 md:my-[70px] py-5 md:py-16 bg-accent-soft/30">
         <div className="container-page">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal direction="left" threshold={0.1}>
-              <div className="rounded-2xl overflow-hidden shadow-card order-2 lg:order-1 group">
+              <div className="rounded-2xl overflow-hidden shadow-card order-2 lg:order-1 group h-64 lg:h-auto">
                 <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop"
                   alt="ISurf Global team working"
-                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full lg:h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
             </ScrollReveal>
@@ -573,7 +578,7 @@ export const Route = createFileRoute("/about")({
       </section>
 
       {/* CTA Section */}
-      <section className="my-[70px] py-16 bg-background">
+      <section className="my-8 md:my-[70px] py-5 md:py-16 bg-background">
         <div className="container-page">
           <ScrollReveal direction="up" threshold={0.1}>
             <div className="rounded-3xl bg-gradient-to-br from-primary to-brand-700 text-white p-10 md:p-16 text-center relative overflow-hidden group">

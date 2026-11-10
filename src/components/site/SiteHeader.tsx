@@ -63,14 +63,7 @@ export function SiteHeader() {
           <img src={Logo} alt="ISurfGlobal" className="h-[65px] w-auto object-contain" />
         </Link>
 
-        <nav
-          className="hidden lg:grid grid-cols-5 items-center gap-1"
-          onMouseLeave={() => setOpen(null)}
-        >
-          {/* Empty div to push first item to column 2 */}
-          <div />
-          <div />
-
+        <nav className="hidden lg:flex items-center gap-1" onMouseLeave={() => setOpen(null)}>
           {navItems.map((item) => (
             <div key={item.label} className="relative" onMouseEnter={() => setOpen(item.label)}>
               {item.items.length === 0 && item.href ? (
@@ -118,6 +111,12 @@ export function SiteHeader() {
               )}
             </div>
           ))}
+          <Link
+            to="/careers"
+            className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:text-foreground"
+          >
+            Careers
+          </Link>
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
@@ -183,6 +182,9 @@ export function SiteHeader() {
                 </details>
               ),
             )}
+            <Link to="/careers" className="block py-2 text-sm font-medium">
+              Careers
+            </Link>
             <div className="pt-2 border-t border-border">
               <LanguageSwitcher />
             </div>

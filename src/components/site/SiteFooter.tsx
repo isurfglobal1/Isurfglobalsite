@@ -1,7 +1,7 @@
-import { Facebook, Globe, Instagram, Linkedin, Twitter, X } from "lucide-react";
+import { Facebook, Globe, Instagram, Linkedin, Twitter, X } from 'lucide-react';
 
-import Logo from "@/assets/ISurf_logo.webp";
-import { Link } from "@tanstack/react-router";
+import Logo from '@/assets/ISurf_logo.webp';
+import { Link } from '@tanstack/react-router';
 
 const cols = [
   {
@@ -19,7 +19,7 @@ const cols = [
     title: "Company",
     links: [
       { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
+      // { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
     ],
   },

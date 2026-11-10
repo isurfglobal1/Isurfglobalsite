@@ -24,7 +24,7 @@ export const Route = createFileRoute("/solutions/hr-outsourcing")({
         description="From recruitment and onboarding to benefits, payroll and compliance — we handle every aspect of your people operations so you can focus on growth."
         bullets={[
           "Talent acquisition and onboarding workflows",
-          "Payroll and benefits administration in 90+ countries",
+          "Payroll and benefits administration in 4 countries",
           "Compliance with local labor laws",
           "Performance management and engagement tools",
         ]}
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/solutions/hr-outsourcing")({
         // 2. STATS
         stats={[
           { value: "92%", label: "Faster onboarding" },
-          { value: "4+", label: "Countries supported" },
+          { value: "4", label: "Countries supported" },
           { value: "24/7", label: "HR support" },
           { value: "99.9%", label: "Compliance accuracy" },
         ]}
@@ -95,7 +95,7 @@ export const Route = createFileRoute("/solutions/hr-outsourcing")({
         faqs={[
           {
             q: "Which countries do you support?",
-            a: "We support HR operations in 90+ countries across the Americas, EMEA, and APAC.",
+            a: "We support HR operations in 4 countries across the Americas, EMEA, and APAC.",
           },
           {
             q: "How quickly can we onboard?",

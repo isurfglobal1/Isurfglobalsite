@@ -98,7 +98,7 @@ const clientLogos = [
 const metrics = [
   { value: 99.9, suffix: "%", label: "BPO success rate", decimals: 1 },
   { value: 24, suffix: "/7", label: "Customer support coverage" },
-  { value: 3, suffix: "", label: "Countries served" },
+  { value: 4, suffix: "", label: "Countries served" },
 ];
 
 function useReveal<T extends HTMLElement>(threshold = 0.2) {
@@ -396,7 +396,7 @@ export function HomePage() {
       default:
         return {
           floatingCards: [
-            { icon: Globe2, label: "Global Reach", sub: "3+ countries" },
+            { icon: Globe2, label: "Global Reach", sub: "4 countries" },
             { icon: Users, label: "Expert Team", sub: "500+ professionals" },
             { icon: Shield, label: "Trusted", sub: "99.9% success rate" },
           ],

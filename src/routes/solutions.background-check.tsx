@@ -55,7 +55,7 @@ export const Route = createFileRoute("/solutions/background-check")({
         // 2. STATS
         stats={[
           { value: "48hrs", label: "Average turnaround" },
-          { value: "3+", label: "Countries covered" },
+          { value: "4", label: "Countries covered" },
           { value: "FCRA", label: "Compliant" },
           { value: "98%", label: "Pass rate accuracy" },
         ]}
@@ -71,7 +71,7 @@ export const Route = createFileRoute("/solutions/background-check")({
           "As a leading provider of background check solutions, we offer a comprehensive suite of verification services backed by industry-leading technology. From criminal record assessments and reference checks to credit history analysis and document authentication, we handle it all with precision and expertise.",
         ]}
         writeUpHighlights={[
-          { icon: Globe2, label: "200+ Countries covered" },
+          { icon: Globe2, label: "4 Countries covered" },
           { icon: Users, label: "All business sizes supported" },
           { icon: Shield, label: "FCRA & GDPR compliant" },
         ]}
@@ -120,7 +120,7 @@ export const Route = createFileRoute("/solutions/background-check")({
           },
           {
             q: "Which countries do you cover?",
-            a: "We provide background verification services in 200+ countries with local expertise and compliance knowledge.",
+            a: "We provide background verification services in 4 countries with local expertise and compliance knowledge.",
           },
           {
             q: "Are your services FCRA compliant?",

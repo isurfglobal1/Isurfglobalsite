@@ -16,6 +16,7 @@ const ROUTES = [
   "/",
   "/about",
   "/careers",
+  "/careers/finance-assistant",
   "/compliance",
   "/contact",
   "/cookies",

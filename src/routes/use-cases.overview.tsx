@@ -65,7 +65,7 @@ export const Route = createFileRoute("/use-cases/overview")({
           "ISurfGlobal solves this challenge with 247HR — the single, integrated platform that powers every aspect of your employee lifecycle. We combine our deep HR expertise with 247HR's enterprise-grade technology to deliver a seamless experience for your entire workforce.",
         ]}
         writeUpHighlights={[
-          { icon: Globe, label: "90+ Countries supported" },
+          { icon: Globe, label: "4 Countries supported" },
           { icon: Users, label: "Complete lifecycle management" },
           { icon: Shield, label: "Enterprise-grade security" },
         ]}
@@ -131,7 +131,7 @@ export const Route = createFileRoute("/use-cases/overview")({
           },
           {
             q: "What countries do you support?",
-            a: "We support HR operations in 90+ countries across the Americas, EMEA, and APAC with local expertise and compliance knowledge.",
+            a: "We support HR operations in 4 countries across the Americas, EMEA, and APAC with local expertise and compliance knowledge.",
           },
           {
             q: "How quickly can we onboard?",
